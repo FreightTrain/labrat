@@ -43,8 +43,7 @@ class LabRat < Sinatra::Base
       xs = rabbitmq_services.
         map { |h| h["credentials"] }.
         map do |creds| creds["protocols"] || {
-          "amqp"       => {"uri" => creds["uri"]},
-          "management" => {"uri" => creds["http_api_uri"]}
+          "amqp"       => {"uri" => creds['dc1']["uri"]}
         } end.reduce([]) do |acc, m|
           acc + m.reduce([]) { |acc2, (k, v)| acc2 << (v.merge(:proto => k))}
         end
